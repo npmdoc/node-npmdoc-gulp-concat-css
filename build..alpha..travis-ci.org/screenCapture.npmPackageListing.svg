@@ -1,0 +1,19 @@
+<svg height="254" width="720" xmlns="http://www.w3.org/2000/svg">
+<rect height="254" fill="#555" width="720"></rect>
+<text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
+<tspan x="10" y="26">  0.  2017-04-03 10:16:21 +0000    17219 byte  .</tspan>
+<tspan x="10" y="42">  1.  2017-04-03 10:16:21 +0000     1080 byte  LICENSE</tspan>
+<tspan x="10" y="58">  2.  2017-04-03 10:16:21 +0000     1749 byte  README.md</tspan>
+<tspan x="10" y="74">  3.  2017-04-03 10:16:21 +0000     3742 byte  index.js</tspan>
+<tspan x="10" y="90">  4.  2017-04-03 10:16:21 +0000     2784 byte  package.json</tspan>
+<tspan x="10" y="106">  5.  2017-04-03 10:16:21 +0000      828 byte  test/expected/build/bundle-all.css</tspan>
+<tspan x="10" y="122">  6.  2017-04-03 10:16:21 +0000      357 byte  test/expected/build/bundle-bubbleonly.css</tspan>
+<tspan x="10" y="138">  7.  2017-04-03 10:16:21 +0000      820 byte  test/expected/build/bundle-import.css</tspan>
+<tspan x="10" y="154">  8.  2017-04-03 10:16:21 +0000      363 byte  test/expected/build/bundle-rebase.css</tspan>
+<tspan x="10" y="170">  9.  2017-04-03 10:16:21 +0000      163 byte  test/fixtures/main.css</tspan>
+<tspan x="10" y="186"> 10.  2017-04-03 10:16:21 +0000      479 byte  test/fixtures/subdir/imported.css</tspan>
+<tspan x="10" y="202"> 11.  2017-04-03 10:16:21 +0000       85 byte  test/fixtures/vendor/importedRecursive.css</tspan>
+<tspan x="10" y="218"> 12.  2017-04-03 10:16:21 +0000      205 byte  test/fixtures/vendor/vendor.css</tspan>
+<tspan x="10" y="234"> 13.  2017-04-03 10:16:21 +0000     4564 byte  test/test.js</tspan>
+</text>
+</svg>

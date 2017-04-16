@@ -1,1 +1,39 @@
-{     "devDependencies": {         "gulp-concat-css": "*",         "electron-lite": "kaizhu256/node-electron-lite#alpha",         "utility2": "kaizhu256/node-utility2#alpha"     },     "name":"npmdoc-gulp-concat-css",     "homepage": "https://github.com/npmdoc/node-npmdoc-gulp-concat-css",     "repository": {         "type": "git",         "url": "https://github.com/npmdoc/node-npmdoc-gulp-concat-css.git"     },     "scripts": {         "build-ci": "utility2 shReadmeTest build_ci.sh"     },     "version": "0.0.1" }
+{
+    "author": "kai zhu <kaizhu256@gmail.com>",
+    "description": "api documentation for [gulp-concat-css (v2.3.0)](https://github.com/mariocasciaro/gulp-concat-css) [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-concat-css.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-concat-css) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-concat-css.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-concat-css)",
+    "devDependencies": {
+        "electron-lite": "kaizhu256/node-electron-lite#alpha",
+        "gulp-concat-css": "*",
+        "utility2": "kaizhu256/node-utility2#alpha"
+    },
+    "engines": {
+        "node": ">=4.0"
+    },
+    "homepage": "https://github.com/npmdoc/node-npmdoc-gulp-concat-css",
+    "keywords": [
+        "documentation",
+        "gulp-concat-css"
+    ],
+    "license": "MIT",
+    "main": "lib.npmdoc_gulp_concat_css.js",
+    "name": "npmdoc-gulp-concat-css",
+    "nameAlias": "npmdoc_gulp_concat_css",
+    "nameOriginal": "npmdoc-gulp-concat-css",
+    "os": [
+        "darwin",
+        "linux"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/npmdoc/node-npmdoc-gulp-concat-css.git"
+    },
+    "scripts": {
+        "build-ci": "utility2 shReadmeTest build_ci.sh",
+        "env": "env",
+        "heroku-postbuild": "(set -e; npm install \"kaizhu256/node-utility2#alpha\"; utility2 shDeployHeroku)",
+        "postinstall": "if [ -f npm_scripts.sh ]; then ./npm_scripts.sh postinstall; fi",
+        "start": "(set -e; export PORT=${PORT:-8080}; utility2 start test.js)",
+        "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"
+    },
+    "version": "0.0.2"
+}

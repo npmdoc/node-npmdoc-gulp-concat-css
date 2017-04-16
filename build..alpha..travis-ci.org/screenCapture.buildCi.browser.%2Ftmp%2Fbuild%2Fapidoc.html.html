@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/mariocasciaro/gulp-concat-css"
-
-    >gulp-concat-css (v2.3.0)</a>
+    <a href="https://github.com/mariocasciaro/gulp-concat-css">gulp-concat-css (v2.3.0)</a>
 </h1>
 <h4>Concatenate css files, rebasing urls and inlining @import</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.gulp-concat-css">module gulp-concat-css</a><ol>
 
@@ -109,7 +102,7 @@
     var processedCss;
 
     if (file.isStream()) {
-      this.emit(&#x27;error&#x27;, new gutil.PluginError(&#x27;gulp-concat-css&#x27;, &#x27;Streaming not supported&#x27;));
+      this.emit('error', new gutil.PluginError('gulp-concat-css', 'Streaming not supported'));
       return cb();
     }
 
@@ -120,7 +113,7 @@
 
     function urlPlugin(file) {
       return reworkUrl(function(url) {
-        if(isUrl(url) || isDataURI(url) || path.extname(url) === &#x27;.css&#x27; || path.resolve(url) === url) {
+        if(isUrl(url) || isDataURI(url) || path.extname(url) === '.css' || path.resolve(url) === url) {
           return url;
         }
 
@@ -128,9 +121,9 @@
         resourceAbsUrl = path.relative(destDir, resourceAbsUrl);
         //not all systems use forward slash as path separator
         //this is required by urls.
-        if(path.sep === &#x27;\\&#x27;){
+        if(path.sep === '\\'){
           //replace with forward slash
-          resourceAbsUrl = resourceAbsUrl.replace(/\\/g, &#x27;/&#x27;);
+          resourceAbsUrl = resourceAbsUrl.replace(/\\/g, '/');
         }
         return resourceAbsUrl;
       });
@@ -140,12 +133,12 @@
     function collectImportUrls(styles) {
       var outRules = [];
       styles.rules.forEach(function(rule) {
-        if(rule.type !== &#x27;import&#x27;) {
+        if(rule.type !== 'import') {
           return outRules.push(rule);
         }
 
-        var importData = parseImport(&#x27;@import &#x27; + rule.import + &#x27;;&#x27;);
-        var importPath = importData &#x26;&#x26; importData[0].path;
+        var importData = parseImport('@import ' + rule.import + ';');
+        var importPath = importData &amp;&amp; importData[0].path;
         if(isUrl(importPath) || !options.inlineImports) {
           return urlImportRules.push(rule);
         }
@@ -165,7 +158,7 @@
     }
 
     try {
-      processedCss = rework(String(file.contents||&#x22;&#x22;),{source:file.path});//find the css file has syntax errors
+      processedCss = rework(String(file.contents||""),{source:file.path});//find the css file has syntax errors
       if(options.rebaseUrls) {
         processedCss = processedCss.use(urlPlugin(file.path));
       }
@@ -175,7 +168,7 @@
       if(options.inlineImports) {
         processedCss = processedCss.use(reworkImport({
           path: [
-            &#x27;.&#x27;,
+            '.',
             path.dirname(file.path)
           ].concat(options.includePaths),
           transform: processNestedImport
@@ -185,7 +178,7 @@
 
       processedCss = processedCss.toString();
     } catch(err) {
-      this.emit(&#x27;error&#x27;, new gutil.PluginError(&#x27;gulp-concat-css&#x27;, err));
+      this.emit('error', new gutil.PluginError('gulp-concat-css', err));
       return cb();
     }
 
@@ -197,7 +190,7 @@
     }
 
     var contents = urlImportRules.map(function(rule) {
-      return &#x27;@import &#x27; + rule.import + &#x27;;&#x27;;
+      return '@import ' + rule.import + ';';
     }).concat(buffer).join(gutil.linefeed);
 
     var concatenatedFile = new gutil.File({
@@ -237,7 +230,7 @@ function processNestedImport(contents) {
 }
 
 try {
-  processedCss = rework(String(file.contents||&#x22;&#x22;),{source:file.path});//find the css file has syntax errors
+  processedCss = rework(String(file.contents||""),{source:file.path});//find the css file has syntax errors
   if(options.rebaseUrls) {
     processedCss = processedCss.use(urlPlugin(file.path));
   }
@@ -253,3 +246,4 @@ try {
     ]
 </div>
 </div>
+</body></html>

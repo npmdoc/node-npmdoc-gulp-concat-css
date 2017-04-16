@@ -61,12 +61,189 @@
 
     <li class="apidocModuleLi"><a href="#apidoc.module.gulp-concat-css">module gulp-concat-css</a><ol>
 
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-concat-css.gulp-concat-css">
+            function <span class="apidocSignatureSpan"></span>gulp-concat-css
+            <span class="apidocSignatureSpan">(destFile, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-concat-css.toString">
+            function <span class="apidocSignatureSpan">gulp-concat-css.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
     </ol></li>
 
 </ol></div>
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.gulp-concat-css" id="apidoc.module.gulp-concat-css">module gulp-concat-css</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-concat-css.gulp-concat-css" id="apidoc.element.gulp-concat-css.gulp-concat-css">
+        function <span class="apidocSignatureSpan"></span>gulp-concat-css
+        <span class="apidocSignatureSpan">(destFile, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-concat-css = function (destFile, options) {
+  var buffer = [];
+  var firstFile, commonBase;
+  var destDir = path.dirname(destFile);
+  var urlImportRules = [];
+  options = defaults({}, options, {
+    inlineImports: true,
+    rebaseUrls: true,
+    includePaths: []
+  });
+
+  return through.obj(function(file, enc, cb) {
+    var processedCss;
+
+    if (file.isStream()) {
+      this.emit(&#x27;error&#x27;, new gutil.PluginError(&#x27;gulp-concat-css&#x27;, &#x27;Streaming not supported&#x27;));
+      return cb();
+    }
+
+    if(!firstFile) {
+      firstFile = file;
+      commonBase = file.base;
+    }
+
+    function urlPlugin(file) {
+      return reworkUrl(function(url) {
+        if(isUrl(url) || isDataURI(url) || path.extname(url) === &#x27;.css&#x27; || path.resolve(url) === url) {
+          return url;
+        }
+
+        var resourceAbsUrl = path.relative(commonBase, path.resolve(path.dirname(file), url));
+        resourceAbsUrl = path.relative(destDir, resourceAbsUrl);
+        //not all systems use forward slash as path separator
+        //this is required by urls.
+        if(path.sep === &#x27;\\&#x27;){
+          //replace with forward slash
+          resourceAbsUrl = resourceAbsUrl.replace(/\\/g, &#x27;/&#x27;);
+        }
+        return resourceAbsUrl;
+      });
+    }
+
+
+    function collectImportUrls(styles) {
+      var outRules = [];
+      styles.rules.forEach(function(rule) {
+        if(rule.type !== &#x27;import&#x27;) {
+          return outRules.push(rule);
+        }
+
+        var importData = parseImport(&#x27;@import &#x27; + rule.import + &#x27;;&#x27;);
+        var importPath = importData &#x26;&#x26; importData[0].path;
+        if(isUrl(importPath) || !options.inlineImports) {
+          return urlImportRules.push(rule);
+        }
+        return outRules.push(rule);
+      });
+      styles.rules = outRules;
+    }
+
+
+    function processNestedImport(contents) {
+      var rew = rework(contents,{source:this.source});//find the css file has syntax errors
+      if(options.rebaseUrls) {
+        rew = rew.use(urlPlugin(this.source));
+      }
+      rew = rew.use(collectImportUrls);
+      return rew.toString();
+    }
+
+    try {
+      processedCss = rework(String(file.contents||&#x22;&#x22;),{source:file.path});//find the css file has syntax errors
+      if(options.rebaseUrls) {
+        processedCss = processedCss.use(urlPlugin(file.path));
+      }
+
+      processedCss = processedCss.use(collectImportUrls);
+
+      if(options.inlineImports) {
+        processedCss = processedCss.use(reworkImport({
+          path: [
+            &#x27;.&#x27;,
+            path.dirname(file.path)
+          ].concat(options.includePaths),
+          transform: processNestedImport
+        }))
+          .toString();
+      }
+
+      processedCss = processedCss.toString();
+    } catch(err) {
+      this.emit(&#x27;error&#x27;, new gutil.PluginError(&#x27;gulp-concat-css&#x27;, err));
+      return cb();
+    }
+
+    buffer.push(processedCss);
+    cb();
+  }, function(cb) {
+    if(!firstFile) {
+      return cb();
+    }
+
+    var contents = urlImportRules.map(function(rule) {
+      return &#x27;@import &#x27; + rule.import + &#x27;;&#x27;;
+    }).concat(buffer).join(gutil.linefeed);
+
+    var concatenatedFile = new gutil.File({
+      base: firstFile.base,
+      cwd: firstFile.cwd,
+      path: path.join(firstFile.base, destFile),
+      contents: new Buffer(contents)
+    });
+    this.push(concatenatedFile);
+    cb();
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-concat-css.toString" id="apidoc.element.gulp-concat-css.toString">
+        function <span class="apidocSignatureSpan">gulp-concat-css.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+    return toString;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+function processNestedImport(contents) {
+  var rew = rework(contents,{source:this.source});//find the css file has syntax errors
+  if(options.rebaseUrls) {
+    rew = rew.use(urlPlugin(this.source));
+  }
+  rew = rew.use(collectImportUrls);
+  return rew.<span class="apidocCodeKeywordSpan">toString</span>();
+}
+
+try {
+  processedCss = rework(String(file.contents||&#x22;&#x22;),{source:file.path});//find the css file has syntax errors
+  if(options.rebaseUrls) {
+    processedCss = processedCss.use(urlPlugin(file.path));
+  }
+...</pre></li>
+    </ul>
+
 
 </div>
 
